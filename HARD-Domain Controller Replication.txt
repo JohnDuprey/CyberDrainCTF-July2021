@@ -1,0 +1,18 @@
+Challenge info
+You've setup two virtual machines in different locations. these virtual machines are domain controllers. The first syncronisation was succesful and you've moved the VMs to their correct network and connect them via an ipsec tunnel.
+
+After some weeks you start noticing strange errors in the logs.
+
+You run a repadmin /replsum command and find that the domain controllers have not synced in some time. You also get RPC errors sometimes when browsing to the other domain controller's NETLOGON share.
+
+The flag is the issue that caused this behaviour.
+
+There is a specific issue which if not solved will cause intermittency permanently
+
+This challenge require an short explanation of the issue next to the flag.
+
+------------------------------------------
+
+Flag: MTU on Network Interfaces set to 1000 
+
+Explanation: In a production environment, this would likely not be on the network interface, but on the IPsec tunnel/firewall. On an IPSec tunnel, we would set the DF bit (Don't Fragment) to prevent this issue. Packet fragmentation can definitely cause some domain replication issues.

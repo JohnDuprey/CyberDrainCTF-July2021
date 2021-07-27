@@ -1,0 +1,12 @@
+Challenge info
+A disaster happened! we're out of beer! also, the server room has flooded because a tank of beer fell over and all servers have been lost. We only have 1 offsite Azure Site Recovery image of the SQL01.
+
+Recover the services, bring them back online and login on the SQL server. The flag is one of the database names in SQL Server Management Studio
+
+This challenge require an short explanation of how you resolved the issue and the flag.
+
+---------------------------------------
+
+Flag = goodjobmaniamproudofyou 
+
+I was able to get the SQL server back online after logging in as the domain administrator with cached credentials. I opened Failover Cluster Manager, and removed the disks. Once removed, I was able to bring them online in Disk Management and change the drive letter for the Data drive to U: to match the SQL Server Configuration. After getting past that part, I had to change the service account to Local System, disable TCP/IP protocol and use named pipes to log into the server.
