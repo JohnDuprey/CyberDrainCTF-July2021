@@ -22,17 +22,17 @@ https://cyberdrainctf.azurewebsites.net/api/CheckFile?email=john.duprey@complete
 
 Function Get-CTFBlobStorageList {
     Param(
-        [string]$Marker = ""
+        [string]$Marker = ''
     )
-    $uri = "https://tempstorage00011.blob.core.windows.net/ctffiles?restype=container&comp=list"
+    $uri = 'https://tempstorage00011.blob.core.windows.net/ctffiles?restype=container&comp=list'
     
-    If ($NextMarker -ne "") {
+    If ($NextMarker -ne '') {
         $uri = "$uri&marker=$Marker"
     }
 
     Write-Host "Getting blob list for $uri" -BackgroundColor DarkBlue
     $wr = Invoke-WebRequest -UseBasicParsing -Uri $uri
-    $xmlbegin = "(<\?xml.+$)"
+    $xmlbegin = '(<\?xml.+$)'
 
     if ($wr.Content -match $xmlbegin) {
         $xml = [xml]$Matches[1]
@@ -51,9 +51,9 @@ Function Get-CTFBlobFiles {
     $blobcount = ($BlobList | Measure-Object).Count
     Write-Host "$blobcount blobs to search, starting parallel jobs" -BackgroundColor Yellow -ForegroundColor Black
 
-    $BlobList | Foreach-Object -AsJob -ThrottleLimit 500 -Parallel {
+    $BlobList | ForEach-Object -AsJob -ThrottleLimit 500 -Parallel {
         $Name = $_.Name
-        $Type = ""
+        $Type = ''
         Try {
             $filewr = Invoke-WebRequest -UseBasicParsing -Uri $_.Url -ErrorAction Stop
             $Token = $filewr.Content
@@ -79,12 +79,12 @@ Function Get-CTFBlobFiles {
 Function Start-CTFBlobChallenge {
     Param(
         [switch]$All,
-        [string]$TokenToFind = ""
+        [string]$TokenToFind = ''
     )
     $start = Get-Date
-    Write-Host "=== Starting CTF ===" -BackgroundColor Red
+    Write-Host '=== Starting CTF ===' -BackgroundColor Red
     Write-Host $start
-    $NextMarker = ""
+    $NextMarker = ''
     $HasMorePages = $true
     $FlagFound = $false
     $x = 0
@@ -96,7 +96,7 @@ Function Start-CTFBlobChallenge {
             Foreach ($Blob in $Blobs) {
                 if (!($All)) {
                     if ($Blob.Token -contains $TokenToFind) {
-                        Write-Host "!!!!!!!!!!! FLAG FOUND !!!!!!!!!!" -BackgroundColor Green -ForegroundColor Black
+                        Write-Host '!!!!!!!!!!! FLAG FOUND !!!!!!!!!!' -BackgroundColor Green -ForegroundColor Black
                         $FlagFound = $true
                         $Blob
                         break
@@ -115,7 +115,7 @@ Function Start-CTFBlobChallenge {
                 $HasMorePages = $true
             }
             else {
-                Write-Host "=== No more markers found ===" -BackgroundColor Red
+                Write-Host '=== No more markers found ===' -BackgroundColor Red
                 $HasMorePages = $false
             }
         }
