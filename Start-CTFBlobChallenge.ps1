@@ -26,7 +26,7 @@ Function Get-CTFBlobStorageList {
     )
     $uri = 'https://tempstorage00011.blob.core.windows.net/ctffiles?restype=container&comp=list'
     
-    If ($NextMarker -ne '') {
+    If ($Marker -ne '') {
         $uri = "$uri&marker=$Marker"
     }
 
