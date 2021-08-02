@@ -16,3 +16,5 @@ This challenge require an short explanation of the issue next to the flag.
 Flag: MTU on Network Interfaces set to 1000 
 
 Explanation: In a production environment, this would likely not be on the network interface, but on the IPsec tunnel/firewall. On an IPSec tunnel, we would set the DF bit (Don't Fragment) to prevent this issue. Packet fragmentation can definitely cause some domain replication issues.
+
+Correction from Kelvin: So the biggest issue isn't even the DF flag on your tunnel. Its that kerebos traffic can never be fragmented and has DF in the header packets. so it would break over time, in all cases. it would also only be intermittent because: repadmin /syncall uses TCP sync instead of UDP and it would only happen if packets get larger
